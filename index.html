@@ -47,5 +47,61 @@
 
             <a-camera gps-camera rotation-reader></a-camera>
         </a-scene>
+        <canvas id="canvas" style="display: none;"></canvas>
+        <p id="estado"></p>
+        <div id="cont-boton">
+            <button id="boton">Tomar foto</button>
+        </div>
+        <style>
+            #cont-boton {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                left: 0;
+                top: 0;
+                text-align: center;
+            }
+            #boton {
+                padding: 10px 10px;
+                border-radius: 1.5em;
+                margin-top: 5px;
+            }
+        </style>
     </body>
+    <script>
+        
+        setTimeout(function () {
+            // body...
+            var $video = document.getElementById("arjs-video");
+            var $canvas = document.getElementById("canvas");
+            var $boton = document.getElementById("boton");
+            var $estado = document.getElementById("estado");
+
+            $boton.addEventListener("click", function() {
+
+            $video.pause();
+     
+                //Obtener contexto del canvas y dibujar sobre él
+                let contexto = $canvas.getContext("2d");
+                $canvas.width = $video.videoWidth;
+                $canvas.height = $video.videoHeight;
+                contexto.drawImage($video, 0, 0, $canvas.width, $canvas.height);
+
+                let foto = $canvas.toDataURL(); //Esta es la foto, en base 64
+
+                let enlace = document.createElement('a'); // Crear un <a>
+                enlace.download = "foto_parzibyte.me.png";
+                enlace.href = foto;
+                enlace.click();
+                //Reanudar reproducción
+                $video.play();
+
+            })
+                
+
+        }, 5000)
+
+        
+       
+    </script>
 </html>
