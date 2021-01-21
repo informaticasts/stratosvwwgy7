@@ -1,1 +1,0 @@
-# stratosvwwgy7
